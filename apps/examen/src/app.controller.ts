@@ -1,4 +1,4 @@
-import { Controller, Get,Post,Body ,Inject, Res, BadRequestException, Param, Put } from '@nestjs/common';
+import { Controller, Get,Post,Body ,Inject, Res, BadRequestException, Param, Put, Delete } from '@nestjs/common';
 import { AppService } from './app.service';
 import { ClientProxy } from '@nestjs/microservices';
 import { Observable} from 'rxjs';
@@ -48,5 +48,10 @@ export class AppController {
       ),
       complete: () => console.info('complete') 
     })
+  }
+
+  @Delete(':id')
+  deleteClient(@Param() id:string): Observable<any> {
+    return  this.client.send('delete_client',id);
   }
 }

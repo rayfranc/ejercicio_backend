@@ -25,7 +25,11 @@ export class ClientappService{
 
   async findAndUpdate(id:string,data:CreateClientDto){
     const updateClient=this.ClientModel.findByIdAndUpdate(id,data)
-    console.log(updateClient)
     return updateClient
+  }
+
+  async findByIdAndDelete(id:string):Promise<Client>{
+    return this.ClientModel.findByIdAndDelete(id).exec()
+    
   }
 }

@@ -62,6 +62,24 @@ async putClient(value):Promise<CreateClientSuccessDto|ClientError>{
   }
 }
 
+@EventPattern('delete_client')
+@UsePipes(new JoiValidationPipe(IdSchema))
+async deleteClient(data):Promise<CreateClientSuccessDto|ClientError>{
+  const {id:_id,error}=data
+  if(error){
+    return error
+  }
+const res=await this.clientsService.findByIdAndDelete(_id)
+if(!res){
+  return {
+    error:"El Id no existe en la base de datos"
+  }
+}
+return {
+  message:'Se elimino el cliente con exito',
+  client:res
+}
+}
 
 
 }
