@@ -2,12 +2,9 @@ import { Controller,UsePipes} from '@nestjs/common';
 import { ClientappService} from './clientapp.service';
 import { EventPattern } from '@nestjs/microservices';
 import { CreateClientSuccessDto,ClientError} from './dto/create-client.dto';
-import { IdSchema, JoiValidationPipe, createClientSchema } from 'apps/clientapp/src/pipes/validation.pipes';
+import { IdSchema, JoiValidationPipe, UpdateClientSchema, createClientSchema } from 'apps/clientapp/src/pipes/validation.pipes';
 
 import { Client } from './schemas/client.scheme';
-
-
-
 
 @Controller()
 export class ClientappController {
@@ -37,12 +34,27 @@ export class ClientappController {
 
  @EventPattern('post_clients')
  @UsePipes(new JoiValidationPipe(createClientSchema))
-async postClient( createClientDto:any) :Promise<CreateClientSuccessDto|ClientError>{
+async postClient( createClientDto:any):Promise<CreateClientSuccessDto|ClientError>{
  const {error}=createClientDto
   if(!error){
   const response=await this.clientsService.create(createClientDto)
   return {
     message:"Cliente creado",
+    client:response
+  }
+  }else{
+    return {error}
+  }
+}
+
+@EventPattern('put_client')
+ @UsePipes(new JoiValidationPipe(UpdateClientSchema))
+async putClient(value):Promise<CreateClientSuccessDto|ClientError>{
+ const{error}=value
+  if(!error){
+  const response=await this.clientsService.findAndUpdate(value.id.id,value.data)
+  return {
+    message:"Cliente Actualizado",
     client:response
   }
   }else{

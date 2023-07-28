@@ -1,4 +1,4 @@
-import { Controller, Get,Post,Body ,Inject, Res, BadRequestException, Param } from '@nestjs/common';
+import { Controller, Get,Post,Body ,Inject, Res, BadRequestException, Param, Put } from '@nestjs/common';
 import { AppService } from './app.service';
 import { ClientProxy } from '@nestjs/microservices';
 import { Observable} from 'rxjs';
@@ -32,5 +32,21 @@ export class AppController {
   ),
   complete: () => console.info('complete') 
 })
+  }
+
+  @Put(':id')
+  async putClient(@Param() id:string,@Body() data:CreateClientDto,@Res() res:any){
+    this.client.send('put_client', {id,data}).subscribe({
+      next: (v) =>{
+        res.send(v)
+      },
+      error: (e) => res.status(400).send(
+        {
+          error:"Error al crear el cliente",
+          e
+        }
+      ),
+      complete: () => console.info('complete') 
+    })
   }
 }

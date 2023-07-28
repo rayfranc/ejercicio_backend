@@ -22,4 +22,10 @@ export class ClientappService{
    async findOne(id:string): Promise<Client> {
     return this.ClientModel.findById(id).exec();
   }
+
+  async findAndUpdate(id:string,data:CreateClientDto){
+    const updateClient=this.ClientModel.findByIdAndUpdate(id,data)
+    console.log(updateClient)
+    return updateClient
+  }
 }

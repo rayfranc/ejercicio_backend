@@ -34,3 +34,13 @@ export const IdSchema=Joi.object({
     return !filtered ? helpers.error("No es un MongoID") : value;
 })
 })
+
+export const UpdateClientSchema=Joi.object({
+  id:IdSchema,
+  data:Joi.object({
+  name:Joi.string(),
+  age:Joi.number(),
+  email:Joi.string().email(),
+  phone:Joi.string()
+  }).required()
+})
