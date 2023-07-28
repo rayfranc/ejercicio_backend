@@ -1,0 +1,50 @@
+{
+  "$schema": "https://json.schemastore.org/nest-cli",
+  "collection": "@nestjs/schematics",
+  "sourceRoot": "apps/examen/src",
+  "compilerOptions": {
+    "deleteOutDir": true,
+    "webpack": true,
+    "tsConfigPath": "apps/examen/tsconfig.app.json"
+  },
+  "monorepo": true,
+  "root": "apps/examen",
+  "projects": {
+    "examen": {
+      "type": "application",
+      "root": "apps/examen",
+      "entryFile": "main",
+      "sourceRoot": "apps/examen/src",
+      "compilerOptions": {
+        "tsConfigPath": "apps/examen/tsconfig.app.json"
+      }
+    },
+    "clientapp": {
+      "type": "application",
+      "root": "apps/clientapp",
+      "entryFile": "main",
+      "sourceRoot": "apps/clientapp/src",
+      "compilerOptions": {
+        "tsConfigPath": "apps/clientapp/tsconfig.app.json"
+      }
+    },
+    "restaurantapp": {
+      "type": "application",
+      "root": "apps/restaurantapp",
+      "entryFile": "main",
+      "sourceRoot": "apps/restaurantapp/src",
+      "compilerOptions": {
+        "tsConfigPath": "apps/restaurantapp/tsconfig.app.json"
+      }
+    },
+    "orderapp": {
+      "type": "application",
+      "root": "apps/orderapp",
+      "entryFile": "main",
+      "sourceRoot": "apps/orderapp/src",
+      "compilerOptions": {
+        "tsConfigPath": "apps/orderapp/tsconfig.app.json"
+      }
+    }
+  }
+}
