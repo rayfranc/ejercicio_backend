@@ -18,4 +18,8 @@ export class ClientappService{
     return createdClient.save();
    
    }
+
+   async findOne(id:string): Promise<Client> {
+    return this.ClientModel.findById(id).exec();
+  }
 }

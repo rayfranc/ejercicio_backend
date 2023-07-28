@@ -17,6 +17,6 @@ export class CreateClientSuccessDto{
     client:CreateClientDto
 }
 
-export class CreateClientError{
+export class ClientError{
     error:string
 }
