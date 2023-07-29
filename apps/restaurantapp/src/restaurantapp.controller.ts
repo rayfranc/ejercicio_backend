@@ -80,4 +80,25 @@ return {
   restaurant:res
 }
 }
+@EventPattern('add_client_by_id')
+async addClientById(data):Promise<CreateRestaurantSuccessDto|RestaurantError>{
+  console.log(data)
+  const restaurant= await this.restaurantappService.findOne(data.id.id)
+  if(!restaurant){
+    return {
+      error:"El Id no existe en la base de datos"
+    }
+  }
+  restaurant.clients.push(data.client)
+  const res= await this.restaurantappService.findAndUpdate(data.id.id,restaurant)
+  if(!res){
+    return {
+      error:"El Id no existe en la base de datos"
+    }
+  }
+  return {
+    message:'Se agrego el cliente con exito',
+    restaurant:res
+  }
+}
 }

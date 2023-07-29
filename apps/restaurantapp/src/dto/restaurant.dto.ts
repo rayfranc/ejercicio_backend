@@ -15,3 +15,4 @@ export class CreateRestaurantSuccessDto{
 export class RestaurantError{
     error:string
 }
+

@@ -17,3 +17,7 @@ export class CreateClientSuccessDto{
 export class CreateClientError{
     error:string
 }
+
+export class IdDto{
+    id:string
+}

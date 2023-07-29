@@ -1,7 +1,7 @@
 import { Controller, Get,Post,Body ,Inject, Res, BadRequestException, Param, Put, Delete } from '@nestjs/common';
 import { ClientProxy } from '@nestjs/microservices';
 import { Observable} from 'rxjs';
-import { CreateClientDto} from './dto/client.dto';
+import { CreateClientDto, IdDto} from './dto/client.dto';
 
 @Controller('/client')
 export class ClientController {
@@ -52,6 +52,14 @@ export class ClientController {
   @Delete(':id')
   deleteClient(@Param() id:string): Observable<any> {
     return  this.client.send('delete_client',id);
+  }
+  @Post('/gotorestaurant/:id')
+  goToRestaurant(@Param() id:string,@Body() idRes:IdDto){
+    const data={
+      id,
+      idRes
+    }
+    return this.client.send('go_to_restaurant',data)
   }
 }
 
@@ -104,5 +112,5 @@ export class RestaurantController{
   @Delete(':id')
   deleteClient(@Param() id:string): Observable<any> {
     return  this.restaurant.send('delete_restaurant',id);
-  }
+  } 
 }

@@ -44,3 +44,8 @@ export const UpdateClientSchema=Joi.object({
   phone:Joi.string()
   }).required()
 })
+
+export const GoToRestaurantReq=Joi.object({
+  id:IdSchema,
+  idRes:IdSchema
+})

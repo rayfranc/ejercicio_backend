@@ -1,13 +1,13 @@
-import { Controller,UsePipes} from '@nestjs/common';
+import { Controller,Inject,Req,Res,UsePipes} from '@nestjs/common';
 import { ClientappService} from './clientapp.service';
-import { EventPattern } from '@nestjs/microservices';
+import { ClientProxy, EventPattern } from '@nestjs/microservices';
 import { CreateClientSuccessDto,ClientError} from './dto/create-client.dto';
-import { IdSchema, JoiValidationPipe, UpdateClientSchema, createClientSchema } from 'apps/clientapp/src/pipes/validation.pipes';
+import { GoToRestaurantReq, IdSchema, JoiValidationPipe, UpdateClientSchema, createClientSchema } from 'apps/clientapp/src/pipes/validation.pipes';
 
 import { Client } from './schemas/client.scheme';
 @Controller()
 export class ClientappController {
-  constructor(private readonly clientsService: ClientappService) {}
+  constructor( @Inject('RESTAURANT_SERVICE') private client:ClientProxy, private readonly clientsService: ClientappService) {}
 
   @EventPattern('get_clients')
   async getClient():Promise<Client[]>{
@@ -78,6 +78,39 @@ return {
   message:'Se elimino el cliente con exito',
   client:res
 }
+}
+
+@EventPattern('go_to_restaurant')
+@UsePipes(new JoiValidationPipe(GoToRestaurantReq))
+async goToRestaurant(body:any){
+  const {error,...rest}=body
+  if(error){
+    return error
+  }
+const res=await this.clientsService.findOne(rest.id.id)
+if(!res){
+  return {
+    error:"El Id del cliente no existe en la base de datos"
+  }
+}else{
+     const data={
+      id:rest.idRes,
+      client:res
+     }
+     this.client.send('add_client_by_id',data).subscribe({
+      next: (v) =>{
+        console.log(v)
+      },
+      error: (e) => console.log(e)
+      ,
+      complete: () => console.info('complete')
+     })
+  return {
+    message:'Se agrego el cliente con exito',
+    client:res
+  }
+}
+
 }
 
 
