@@ -5,7 +5,6 @@ import { CreateClientSuccessDto,ClientError} from './dto/create-client.dto';
 import { IdSchema, JoiValidationPipe, UpdateClientSchema, createClientSchema } from 'apps/clientapp/src/pipes/validation.pipes';
 
 import { Client } from './schemas/client.scheme';
-
 @Controller()
 export class ClientappController {
   constructor(private readonly clientsService: ClientappService) {}
